@@ -1,0 +1,21 @@
+<h1>Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Itemname</th>
+      <th>Rate</th>
+      <th>Tax</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @item.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.rate %></td>
+        <td><%= Itemtax.find(item.id).tax%></td>
+       </tr>
+    <% end %>
+  </tbody>
+</table>

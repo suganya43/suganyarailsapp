@@ -1,0 +1,37 @@
+<%= form_with(model: itemtax, local: true) do |form| %>
+  <% if itemtax.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(itemtax.errors.count, "error") %> prohibited this itemtax from being saved:</h2>
+
+      <ul>
+      <% itemtax.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :itemid %>
+    <%= form.collection_select(:itemid, @item, :id, :name, :include_blank => "Please select") %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tax_type %>
+    <%= form.radio_button :tax_type, "percentage" %>
+    <%= form.label :tax_type, "percentage", :value => "percentage" %>
+    <%= form.radio_button :tax_type, "value" %>
+    <%= form.label :tax_type, "value", :value => "value" %>
+
+    <%# form.text_field :tax_type, id: :itemtax_tax_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tax %>
+    <%= form.text_field :tax, id: :itemtax_tax %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
