@@ -66,7 +66,7 @@ class ItemsController < ApplicationController
   end
 
   def finalamount
-     puts @items = params[:item].to_a
+     @items = params[:item].to_a
      @selected_items = Item.find(@items)
      
   end

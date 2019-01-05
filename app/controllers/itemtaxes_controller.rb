@@ -1,4 +1,5 @@
 class ItemtaxesController < ApplicationController
+  include ItemtaxesHelper
   before_action :set_itemtax, only: [:show, :edit, :update, :destroy]
 
   # GET /itemtaxes
@@ -26,23 +27,32 @@ class ItemtaxesController < ApplicationController
   # POST /itemtaxes
   # POST /itemtaxes.json
   def create
-    @itempresent = Item.find(params[:itemtax][:itemid])
-    if @itempresent.nil?
-        @itemtax = Itemtax.new(itemtax_params)
-        @item = Item.all
-    respond_to do |format|
-      if @itemtax.save
-        format.html { redirect_to @itemtax, notice: 'Itemtax was successfully created.' }
-        format.json { render :show, status: :created, location: @itemtax }
-      else
-        format.html { render :new }
-        format.json { render json: @itemtax.errors, status: :unprocessable_entity }
-      end
-    end
-    else
-      redirect_to itemtaxes_url ,notice:"Tax for the item is already added"
-    end
-    
+
+          if params[:itemtax][:itemid].empty?
+               @itemtax = Itemtax.new(itemtax_params)
+               redirect_to new_itemtax_url ,notice:"Please add the details to save"
+
+          else
+             @itempresent = Item.find(params[:itemtax][:itemid])
+             
+             if !@itempresent.nil?
+                @itemtax = Itemtax.new(itemtax_params)
+                @itemtax.tax = final_params(itemtax_params).to_f
+                @item = Item.all
+                respond_to do |format|
+                if @itemtax.save
+                  format.html { redirect_to @itemtax, notice: 'Itemtax was successfully created.' }
+                  format.json { render :show, status: :created, location: @itemtax }
+               else
+                  format.html { render :new }
+                  format.json { render json: @itemtax.errors, status: :unprocessable_entity }
+               end  
+               end 
+            else
+              redirect_to itemtaxes_url ,notice:"Tax for the item is already added"
+            end
+         end
+      
   end
 
   # PATCH/PUT /itemtaxes/1

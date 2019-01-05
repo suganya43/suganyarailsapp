@@ -1,7 +1,11 @@
 <h1>Selected Items</h1>
+    <% if @selected_items.empty?%>
+    No selected items to display
+    <% else %>
 
 <table>
   <thead>
+    
     <tr>
       <th>Itemname</th>
       <th>Rate</th>
@@ -14,21 +18,35 @@
       <tr>
         <td><%= item.name %></td>
         <td><%= item.rate %></td>
-        <td><%= Itemtax.find(item.id).tax%></td>
+        <% @tax = Itemtax.find_by_itemid(item.id)%>
+        <% if @tax.nil?%>
+               <td> Notax</td>
+        <%else%>
+                <td><%=@tax.tax %></td>
+        <% end %>
 
        </tr>
     <% end %>
     
     <tr>
-    	<br>
+      <br>
 <% total = @selected_items.inject(0) { |sum, p| sum + p.rate }%>
+        <% if @tax.nil?%>
+        <tr> Sub total :  <%= total%> </tr>
+
+        <% else %>
 <% taxtotal =  @selected_items.inject(0) { |sum, p| sum + Itemtax.find(p.id).tax }%>
-<tr> Sub total :  <%= total%> </tr>
+        <tr> Sub total :  <%= total%> </tr>
+
 <br>
 <tr> Tax total :  <%= taxtotal %> </tr>
 <br>
 <tr> Total Amount : <%= taxtotal + total%>
 
+<% end %>
+
     </tr>
-  </tbody>
+
+    <% end %>
+      </tbody>
 </table>
