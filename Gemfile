@@ -6,7 +6,8 @@ git_source(:github) do |repo_name|
 end
 
 group :development, :test do
-gem 'mysql2', '>= 0.3.18', '< 0.6.0'end
+gem 'mysql2', '>= 0.3.18', '< 0.6.0'
+end
 
 group :production do
  gem 'listen', '~> 3.0.5'
