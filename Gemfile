@@ -5,9 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-group :development, :test do
 gem 'mysql2', '>= 0.3.18', '< 0.6.0'
-end
 
 group :production do
  gem 'listen', '~> 3.0.5'
